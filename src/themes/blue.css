@@ -1,0 +1,64 @@
+@font-face {
+  font-family: snakeFont;
+  src: url("../fonts/8_bit_operator/8bitOperatorPlus-Regular.ttf");
+}
+
+.menuWrapper {
+  position: relative;
+  padding-top: 100px;
+  font-family: snakeFont;
+  text-align: center;
+  color: dimgray;
+  z-index: 50;
+
+  menu {
+    padding: 0px;
+
+    li {
+      list-style-type: none;
+      margin: 0px;
+
+      &.selected {
+        font-weight: 700;
+        &::before {
+          content: ">";
+        }
+        &::after {
+          content: "<";
+        }
+      }
+    }
+  }
+}
+
+#snakeGame {
+  width: 500px;
+  min-width: 500px;
+  max-width: 500px;
+  height: 500px;
+  min-height: 500px;
+  max-height: 500px;
+  background-color: pink;
+
+  z-index: 5;
+}
+
+.game-background-color {
+  background-color: azure;
+  z-index: 10;
+}
+
+.game-object-bonus {
+  background-color: red;
+  z-index: 10;
+}
+
+.game-object-wall {
+  background-color: brown;
+  z-index: 10;
+}
+
+.game-object-snake {
+  background-color: yellow;
+  z-index: 10;
+}

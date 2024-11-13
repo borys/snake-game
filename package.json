@@ -1,0 +1,30 @@
+{
+  "name": "snake",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "old school snake game",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build", 
+    "preview": "vite preview", 
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint",
+    "prettier": "prettier ./src --write",
+    "jsdoc": "jsdoc src -r -R README.md -d docs"
+  },
+  "keywords": [],
+  "author": "Przemysław Białek",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.14.0",
+    "eslint": "^9.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jsdoc": "^50.4.3",
+    "globals": "^15.12.0",
+    "jsdoc": "^4.0.4",
+    "prettier": "^3.3.3",
+    "vite": "^5.4.11"
+  },
+  "packageManager": "pnpm@9.12.3"
+}

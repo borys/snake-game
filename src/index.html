@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <title>Snake</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./themes/blue.css" />
+  </head>
+  <body>
+    <div id="snakeGame"></div>
+
+    <template id="mainMenu">
+      <div class="menuWrapper">
+        <h1>Snake</h1>
+        <p>
+          accept: ENTER/SPACE <br />
+          move: WSAD or ↑↓←→ <br />
+          pause: Escape or Q
+        </p>
+        <menu>
+          <li data-key="level_01">Level 1</li>
+          <li data-key="level_02">Level 2</li>
+        </menu>
+      </div>
+    </template>
+
+    <template id="pauseMenu">
+      <div class="menuWrapper">
+        <h1>Pause</h1>
+        <p>Points: <output></output></p>
+        <menu>
+          <li data-key="resume">Resume</li>
+          <li data-key="exit">Exit</li>
+        </menu>
+      </div>
+    </template>
+
+    <template id="gameOverMenu">
+      <div class="menuWrapper">
+        <h1>Game Over</h1>
+        <p>Points: <output></output></p>
+        <menu>
+          <li data-key="main">Main menu</li>
+        </menu>
+      </div>
+    </template>
+
+    <script type="module" src="./snake.js"></script>
+  </body>
+</html>
