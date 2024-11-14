@@ -1,2 +1,2 @@
-pnpm prettier
-pnpm eslint
+pnpm prettierCheck
+pnpm eslintCheck
