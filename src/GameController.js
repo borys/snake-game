@@ -38,37 +38,39 @@ export class GameController {
     this.#handleGameOver = cb;
   }
 
-  applyGameRules(gameLoop) {
-    gameLoop.onSnakeHeadCollision(([gameObject]) => {
-      // TODO maybe use visitor pattern here? (rather than type check)
-      if (gameObject.className === GameObjectsFactory.bonusClassName) {
+  #handleSnakeCollision([gameObject]) {
+    // TODO maybe use visitor pattern here? (rather than type check)
+    switch (gameObject.className) {
+      case GameObjectsFactory.bonusClassName: {
         this.snake.grow();
+
         const newPosition = this.randPosition();
         this.bonus.position = newPosition;
+
         this.points += 100;
-      } else if (
-        gameObject.className === GameObjectsFactory.wallClassName ||
-        gameObject.className === Snake.segmentClassName
-      ) {
-        gameLoop.stopGame();
+        break;
+      }
+      case GameObjectsFactory.wallClassName:
+      case Snake.segmentClassName: {
+        this.gameLoop.stopGame();
         this.#handleGameOver?.();
       }
-    });
+    }
+  }
 
-    gameLoop.onSnakeHeadOutsideMap(() => {
-      const snakeHead = this.snake.getHead();
+  #handleSnakeHeadOutsideMap() {
+    const snakeHead = this.snake.getHead();
 
-      const newPosition = {
-        row:
-          (snakeHead.position.row + this.sizeInTiles.rows) %
-          this.sizeInTiles.rows,
-        col:
-          (snakeHead.position.col + this.sizeInTiles.cols) %
-          this.sizeInTiles.cols,
-      };
+    const newPosition = {
+      row:
+        (snakeHead.position.row + this.sizeInTiles.rows) %
+        this.sizeInTiles.rows,
+      col:
+        (snakeHead.position.col + this.sizeInTiles.cols) %
+        this.sizeInTiles.cols,
+    };
 
-      this.snake.setHeadPosition(newPosition);
-    });
+    this.snake.setHeadPosition(newPosition);
   }
 
   constructor(rootElement) {
@@ -89,7 +91,8 @@ export class GameController {
     this.gameObjectsFactory = new GameObjectsFactory(this.drawContext);
 
     this.gameLoop = new GameLoop();
-    this.applyGameRules(this.gameLoop);
+    this.gameLoop.onSnakeHeadCollision(this.#handleSnakeCollision);
+    this.gameLoop.onSnakeHeadOutsideMap(this.#handleSnakeHeadOutsideMap);
   }
 
   handleKeyboard(key) {

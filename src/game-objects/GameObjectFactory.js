@@ -1,3 +1,5 @@
+"use strict";
+
 import { DrawContext } from "../core/DrawContext.js";
 import { Position } from "../utils/position.js";
 import { ContainerObject } from "./ContainerObject.js";
