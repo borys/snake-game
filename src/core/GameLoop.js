@@ -2,7 +2,7 @@
 
 /** @import { GameObject } from "./GameObject.js"; */
 import { Snake } from "../game-objects/Snake.js";
-import { GameScene } from "./GameScene.js";
+import { GameScene } from "../game-objects/GameScene.js";
 
 export class GameLoop {
   /** @type {number | null} */

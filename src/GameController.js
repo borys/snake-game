@@ -1,7 +1,7 @@
 "use strict";
 import { DrawContext } from "./core/DrawContext.js";
 import { GameLoop } from "./core/GameLoop.js";
-import { GameScene } from "./core/GameScene.js";
+import { GameScene } from "./game-objects/GameScene.js";
 import { GameMap } from "./game-objects/GameMap.js";
 import { GameMapFactory } from "./game-objects/GameMapFactory.js";
 import { SingleTileObject } from "./game-objects/SingleTileObject.js";

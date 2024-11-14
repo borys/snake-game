@@ -59,5 +59,7 @@ export class SingleTileObject extends GameObject {
     this._drawContext.removeTile(this.#elementRef);
     this.#elementRef = null;
     this.position = null;
+
+    super.destroy();
   }
 }

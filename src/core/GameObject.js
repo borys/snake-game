@@ -7,9 +7,9 @@ import { DrawContext } from "./DrawContext.js";
 export class GameObject {
   /**
    * @protected
-   * @type {DrawContext}
+   * @type {DrawContext | null}
    */
-  _drawContext;
+  _drawContext = null;
 
   /**
    * Set drawContext
@@ -49,9 +49,8 @@ export class GameObject {
 
   /**
    * Destroy game object
-   * @abstract
    */
   destroy() {
-    throw new Error("checkCollision should be overridden");
+    this._drawContext = null;
   }
 }
