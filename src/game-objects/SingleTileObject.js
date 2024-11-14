@@ -17,10 +17,12 @@ export class SingleTileObject extends GameObject {
   /**
    * Creates object
    * @param {string} className name used as tile class
+   * @param {Position} [position] tile position
    */
-  constructor(className) {
+  constructor(className, position = null) {
     super();
     this.#className = className;
+    this.position = position;
   }
 
   /**

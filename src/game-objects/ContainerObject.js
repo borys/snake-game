@@ -14,9 +14,9 @@ export class ContainerObject extends GameObject {
   }
 
   /**
-   * Check for collision
+   * Check if provided position is occupied by container's children
    * @param {Position} position position checked for collision
-   * @returns array of collided elements or empty array when no collision
+   * @returns array of collided elements, empty when no collision
    */
   checkCollision(position) {
     return this._children.flatMap((child) => child.checkCollision(position));

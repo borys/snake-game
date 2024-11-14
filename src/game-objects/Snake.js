@@ -1,16 +1,15 @@
 "use strict";
 
 import { Position } from "../utils/position.js";
-import { GameObject } from "../core/GameObject.js";
 import { SnakeDirectionState } from "./snake-direction-state/SnakeDirectionState.js";
 import { UpSnakeDirectionState } from "./snake-direction-state/UpSnakeDirectionState.js";
 import { SingleTileObject } from "./SingleTileObject.js";
+import { ContainerObject } from "./ContainerObject.js";
 
 // TODO should also extends SnakeDirectionState
-export class Snake extends GameObject {
+export class Snake extends ContainerObject {
   static segmentClassName = "game-object-snake";
-  /** @type {SingleTileObject[]} */
-  #segments = [];
+
   #growCounter = 0;
   /** @type {SnakeDirectionState} */
   #directionState = new UpSnakeDirectionState(this);
@@ -21,21 +20,14 @@ export class Snake extends GameObject {
     super();
 
     // TODO move to GameController
-    this.#segments = [
+    this._children = [
       new Position(25, 23),
       new Position(25, 24),
       new Position(25, 25),
       new Position(25, 26),
     ].map((position) => {
-      const segment = new SingleTileObject(Snake.segmentClassName);
-      segment.position = position;
-      return segment;
+      return new SingleTileObject(Snake.segmentClassName, position);
     });
-  }
-
-  setDrawContext(drawContext) {
-    super.setDrawContext(drawContext);
-    this.#segments.forEach((segment) => segment.setDrawContext(drawContext));
   }
 
   grow() {
@@ -79,7 +71,7 @@ export class Snake extends GameObject {
    * @returns head segment
    */
   getHead() {
-    return this.#segments.at(-1);
+    return this._children.at(-1);
   }
 
   /**
@@ -107,39 +99,21 @@ export class Snake extends GameObject {
       newHead.position = newPosition;
       newHead.createView();
 
-      body = [...this.#segments];
+      body = [...this._children];
       this.#growCounter--;
     } else {
-      [newHead, ...body] = this.#segments;
+      [newHead, ...body] = this._children;
       newHead.position = newPosition;
     }
 
-    this.#segments = [...body, newHead];
-  }
-
-  /**
-   * Check if provided position is occupied by Snake
-   * @param {Position} p given position
-   * @returns true when snake contains position
-   */
-  checkCollision(p) {
-    return this.#segments.flatMap((segment) => segment.checkCollision(p));
-  }
-
-  createView() {
-    this.#segments.forEach((segment) => segment.createView());
-  }
-
-  updateView() {
-    this.#segments.forEach((segment) => {
-      segment.updateView();
-    });
+    this._children = [...body, newHead];
   }
 
   destroy() {
-    this.#segments.forEach((segment) => segment.destroy());
     this.#growCounter = 0;
-    this.#segments = [];
+    this.#directionState = new UpSnakeDirectionState(this);
     this.#nextDirection = null;
+
+    super.destroy();
   }
 }
