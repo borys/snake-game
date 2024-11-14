@@ -3,21 +3,20 @@
 import { Position } from "../core/Position.js";
 import { SnakeDirectionState } from "./snake-direction-state/SnakeDirectionState.js";
 import { UpSnakeDirectionState } from "./snake-direction-state/UpSnakeDirectionState.js";
-import { SingleTileObject } from "./SingleTileObject.js";
 import { ContainerObject } from "../core/ContainerObject.js";
 
 // TODO should also extends SnakeDirectionState
 export class Snake extends ContainerObject {
-  static segmentClassName = "game-object-snake";
-
+  #gameObjectFactory = null;
   #growCounter = 0;
   /** @type {SnakeDirectionState} */
   #directionState = new UpSnakeDirectionState(this);
   /** @type {"UP" | "DOWN" | "LEFT" | "RIGHT" | null} */
   #nextDirection = null;
 
-  constructor() {
+  constructor(gameObjectsFactory) {
     super();
+    this.#gameObjectFactory = gameObjectsFactory;
 
     // TODO move to GameController
     this._children = [
@@ -26,7 +25,7 @@ export class Snake extends ContainerObject {
       new Position(25, 25),
       new Position(25, 26),
     ].map((position) => {
-      return new SingleTileObject(Snake.segmentClassName, position);
+      return gameObjectsFactory.getSnakeSegment(position);
     });
   }
 
@@ -94,9 +93,8 @@ export class Snake extends ContainerObject {
 
     let newHead, body;
     if (this.#growCounter > 0) {
-      newHead = new SingleTileObject(Snake.segmentClassName);
+      newHead = this.#gameObjectFactory.getSnakeSegment(newPosition);
       newHead.setDrawContext(this._drawContext);
-      newHead.position = newPosition;
       newHead.createView();
 
       body = [...this._children];

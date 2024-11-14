@@ -60,7 +60,7 @@ export class GameController {
         break;
       }
       case GameObjectsFactory.wallClassName:
-      case Snake.segmentClassName: {
+      case GameObjectsFactory.snakeSegmentClassName: {
         this.gameLoop.stopGame();
         this.#handleGameOver?.();
       }

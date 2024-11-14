@@ -9,6 +9,7 @@ import { Snake } from "./Snake.js";
 export class GameObjectsFactory {
   static wallClassName = "game-object-wall";
   static bonusClassName = "game-object-bonus";
+  static snakeSegmentClassName = "game-object-snake";
   /**
    * @protected
    * @type {DrawContext}
@@ -30,8 +31,18 @@ export class GameObjectsFactory {
     return scene;
   }
 
+  getSnakeSegment(position) {
+    const segment = new SingleTileObject(
+      GameObjectsFactory.snakeSegmentClassName,
+      position,
+    );
+    segment.setDrawContext(this._drawContext);
+
+    return segment;
+  }
+
   getSnake() {
-    const snake = new Snake();
+    const snake = new Snake(this);
     snake.setDrawContext(this._drawContext);
     return snake;
   }
