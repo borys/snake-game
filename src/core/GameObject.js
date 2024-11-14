@@ -1,6 +1,6 @@
 "use strict";
 
-import { Position } from "../utils/position.js";
+import { Position } from "./Position.js";
 import { DrawContext } from "./DrawContext.js";
 
 /** @abstract */

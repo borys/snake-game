@@ -1,6 +1,6 @@
 "use strict";
 
-import { Position } from "../../utils/position.js";
+import { Position } from "../../core/Position.js";
 import { Snake } from "../Snake.js";
 
 export class SnakeDirectionState {

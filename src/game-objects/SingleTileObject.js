@@ -1,6 +1,6 @@
 "use strict";
 
-import { Position } from "../utils/position.js";
+import { Position } from "../core/Position.js";
 import { GameObject } from "../core/GameObject.js";
 
 export class SingleTileObject extends GameObject {

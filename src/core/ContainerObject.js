@@ -1,5 +1,5 @@
-import { GameObject } from "../core/GameObject";
-import { Position } from "../utils/position";
+import { GameObject } from "./GameObject";
+import { Position } from "./Position";
 
 export class ContainerObject extends GameObject {
   /**

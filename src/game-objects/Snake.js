@@ -1,10 +1,10 @@
 "use strict";
 
-import { Position } from "../utils/position.js";
+import { Position } from "../core/Position.js";
 import { SnakeDirectionState } from "./snake-direction-state/SnakeDirectionState.js";
 import { UpSnakeDirectionState } from "./snake-direction-state/UpSnakeDirectionState.js";
 import { SingleTileObject } from "./SingleTileObject.js";
-import { ContainerObject } from "./ContainerObject.js";
+import { ContainerObject } from "../core/ContainerObject.js";
 
 // TODO should also extends SnakeDirectionState
 export class Snake extends ContainerObject {

@@ -1,11 +1,12 @@
 "use strict";
 import { DrawContext } from "./core/DrawContext.js";
-import { GameLoop } from "./core/GameLoop.js";
+import { GameLoop } from "./GameLoop.js";
 import { GameObjectsFactory } from "./game-objects/GameObjectFactory.js";
 import { SingleTileObject } from "./game-objects/SingleTileObject.js";
 import { Snake } from "./game-objects/Snake.js";
-import { Position } from "./utils/position.js";
-import { ContainerObject } from "./game-objects/ContainerObject.js";
+import { Position } from "./core/Position.js";
+import { ContainerObject } from "./core/ContainerObject.js";
+import { GameObject } from "./core/GameObject.js";
 
 export class GameController {
   sizeInTiles = {
@@ -38,8 +39,16 @@ export class GameController {
     this.#handleGameOver = cb;
   }
 
+  /**
+   * Handle collision
+   * @param {GameObject[]} param0 array of collided object (should be one)
+   */
   #handleSnakeCollision([gameObject]) {
     // TODO maybe use visitor pattern here? (rather than type check)
+    if (!(gameObject instanceof SingleTileObject)) {
+      throw new Error("#handleSnakeCollision wrong object type");
+    }
+
     switch (gameObject.className) {
       case GameObjectsFactory.bonusClassName: {
         this.snake.grow();
@@ -91,8 +100,10 @@ export class GameController {
     this.gameObjectsFactory = new GameObjectsFactory(this.drawContext);
 
     this.gameLoop = new GameLoop();
-    this.gameLoop.onSnakeHeadCollision(this.#handleSnakeCollision);
-    this.gameLoop.onSnakeHeadOutsideMap(this.#handleSnakeHeadOutsideMap);
+    this.gameLoop.onSnakeHeadCollision((c) => this.#handleSnakeCollision(c));
+    this.gameLoop.onSnakeHeadOutsideMap(() =>
+      this.#handleSnakeHeadOutsideMap(),
+    );
   }
 
   handleKeyboard(key) {

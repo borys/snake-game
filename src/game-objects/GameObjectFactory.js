@@ -1,8 +1,8 @@
 "use strict";
 
 import { DrawContext } from "../core/DrawContext.js";
-import { Position } from "../utils/position.js";
-import { ContainerObject } from "./ContainerObject.js";
+import { Position } from "../core/Position.js";
+import { ContainerObject } from "../core/ContainerObject.js";
 import { SingleTileObject } from "./SingleTileObject.js";
 import { Snake } from "./Snake.js";
 

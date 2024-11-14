@@ -1,7 +1,7 @@
 "use strict";
 
-/** @import { GameObject } from "./GameObject.js"; */
-import { GameController } from "../GameController.js";
+/** @import { GameObject } from "./core/GameObject.js"; */
+import { GameController } from "./GameController.js";
 
 export class GameLoop {
   /** @type {number | null} */
