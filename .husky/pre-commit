@@ -1,2 +1,3 @@
 pnpm prettierCheck
+pnpm check-types
 pnpm eslintCheck
