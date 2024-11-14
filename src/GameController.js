@@ -2,11 +2,11 @@
 import { DrawContext } from "./core/DrawContext.js";
 import { GameLoop } from "./core/GameLoop.js";
 import { GameScene } from "./game-objects/GameScene.js";
-import { GameMap } from "./game-objects/GameMap.js";
 import { GameMapFactory } from "./game-objects/GameMapFactory.js";
 import { SingleTileObject } from "./game-objects/SingleTileObject.js";
 import { Snake } from "./game-objects/Snake.js";
 import { Position } from "./utils/position.js";
+import { ContainerObject } from "./game-objects/ContainerObject.js";
 
 export class GameController {
   sizeInTiles = {
@@ -22,7 +22,7 @@ export class GameController {
   gameMapFactory = null;
   /** @type {GameScene | null} */
   gameScene = null;
-  /** @type {GameMap | null} */
+  /** @type {ContainerObject | null} */
   gameMap = null;
   /** @type {Snake | null} */
   snake = null;
@@ -48,7 +48,7 @@ export class GameController {
         this.bonus.position = newPosition;
         this.points += 100;
       } else if (
-        gameObject.className === GameMap.wallClassName ||
+        gameObject.className === GameMapFactory.wallClassName ||
         gameObject.className === Snake.segmentClassName
       ) {
         gameLoop.stopGame();
