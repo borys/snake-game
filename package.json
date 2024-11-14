@@ -6,8 +6,8 @@
   "description": "old school snake game",
   "scripts": {
     "dev": "vite",
-    "build": "vite build", 
-    "preview": "vite preview", 
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1",
     "eslint": "eslint",
     "prettier": "prettier ./src --write",
@@ -22,6 +22,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsdoc": "^50.4.3",
     "globals": "^15.12.0",
+    "husky": "^9.1.6",
     "jsdoc": "^4.0.4",
     "prettier": "^3.3.3",
     "vite": "^5.4.11"
