@@ -9,6 +9,7 @@ export class GameMenu {
 
   /** @type {HTMLElement[]} */
   #items = [];
+  #outputs = {};
   #selectedIndex = 0;
 
   /**
@@ -51,6 +52,14 @@ export class GameMenu {
     this.#items = Array.from(clone.querySelectorAll("li"));
     this.#changeSelected(0);
 
+    this.#outputs = Object.fromEntries(
+      // @ts-ignore
+      Array.from(clone.querySelectorAll("output")).map((output) => [
+        output.name,
+        output,
+      ])
+    );
+
     // @ts-ignore
     this.#menuElementRef = clone.firstElementChild;
     this.#rootElementRef.appendChild(clone);
@@ -89,6 +98,16 @@ export class GameMenu {
    */
   #getSelectedItemKey() {
     return this.#items[this.#selectedIndex].dataset["key"];
+  }
+
+  /**
+   * Fills templates outputs using provided data
+   * @param {object} data object where keys are template output fields names
+   */
+  fillOutputsData(data) {
+    Object.entries(data).forEach(([name, value]) => {
+      this.#outputs[name].value = value;
+    });
   }
 
   /**

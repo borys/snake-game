@@ -15,8 +15,9 @@ export class GameOverMenuState extends GameState {
 
     this.#gameOverMenu = new GameMenu(
       gameManager.rootElement,
-      gameOverMenuTemplate,
+      gameOverMenuTemplate
     );
+    this.#gameOverMenu.fillOutputsData({ points: gameController.points });
     this.#gameOverMenu.onItemEnter(() => {
       gameController.destroy();
 

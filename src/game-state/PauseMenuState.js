@@ -16,11 +16,12 @@ export class PauseMenuState extends GameState {
     }
 
     this.#pauseMenu = new GameMenu(gameManager.rootElement, pauseMenuTemplate);
+    this.#pauseMenu.fillOutputsData({ points: gameController.points });
     this.#pauseMenu.onItemEnter((key) => {
       if (key === "resume") {
         const resumeGameState = new ResumeGameState(
           gameManager,
-          gameController,
+          gameController
         );
         gameManager.changeState(resumeGameState);
       } else if (key === "exit") {
