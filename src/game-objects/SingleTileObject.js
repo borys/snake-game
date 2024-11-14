@@ -3,19 +3,33 @@
 import { Position } from "../utils/position.js";
 import { GameObject } from "../core/GameObject.js";
 
-export class Wall extends GameObject {
+export class SingleTileObject extends GameObject {
   /** @type {HTMLElement | null} */
   #elementRef = null;
   /** @type {Position | null} */
   position = null;
+  /** @type {string} */
+  #className = "";
+  get className() {
+    return this.#className;
+  }
 
   /**
-   * Check if position is occupied by this wall
-   * @param {Position} p given position
+   * Creates object
+   * @param {string} className name used as tile class
+   */
+  constructor(className) {
+    super();
+    this.#className = className;
+  }
+
+  /**
+   * Check if position is occupied by this tile
+   * @param {Position} position given position
    * @returns array with this element when collided, empty array in other case
    */
-  checkCollision(p) {
-    return Position.isEqual(this.position, p) ? [this] : [];
+  checkCollision(position) {
+    return Position.isEqual(this.position, position) ? [this] : [];
   }
 
   createView(position) {
@@ -24,11 +38,16 @@ export class Wall extends GameObject {
     }
 
     this.position = position ?? this.position;
+
+    if (!this.position) {
+      throw new Error("Position not set");
+    }
+
     this.#elementRef = this._drawContext.createTile(
       this.position,
       1,
       1,
-      "game-object-wall",
+      this.#className,
     );
   }
 

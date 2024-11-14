@@ -2,10 +2,11 @@
 
 import { Position } from "../utils/position.js";
 import { GameObject } from "../core/GameObject.js";
-import { Wall } from "./Wall.js";
+import { SingleTileObject } from "./SingleTileObject.js";
 
 export class GameMap extends GameObject {
-  /** @type {Wall[]} */
+  static wallClassName = "game-object-wall";
+  /** @type {SingleTileObject[]} */
   #walls = [];
 
   setDrawContext(drawContext) {
@@ -35,7 +36,7 @@ export class GameMap extends GameObject {
    * @param {Position} position position of the wall
    */
   addWall(position) {
-    const newWall = new Wall();
+    const newWall = new SingleTileObject(GameMap.wallClassName);
     newWall.setDrawContext(this._drawContext);
     newWall.position = position;
 

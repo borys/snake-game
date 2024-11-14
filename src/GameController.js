@@ -2,12 +2,10 @@
 import { DrawContext } from "./core/DrawContext.js";
 import { GameLoop } from "./core/GameLoop.js";
 import { GameScene } from "./core/GameScene.js";
-import { Bonus } from "./game-objects/Bonus.js";
 import { GameMap } from "./game-objects/GameMap.js";
 import { GameMapFactory } from "./game-objects/GameMapFactory.js";
+import { SingleTileObject } from "./game-objects/SingleTileObject.js";
 import { Snake } from "./game-objects/Snake.js";
-import { SnakeSegment } from "./game-objects/SnakeSegment.js";
-import { Wall } from "./game-objects/Wall.js";
 import { Position } from "./utils/position.js";
 
 export class GameController {
@@ -28,7 +26,7 @@ export class GameController {
   gameMap = null;
   /** @type {Snake | null} */
   snake = null;
-  /** @type {Bonus | null} */
+  /** @type {SingleTileObject | null} */
   bonus = null;
 
   #handlePause;
@@ -44,14 +42,14 @@ export class GameController {
   applyGameRules(gameLoop) {
     gameLoop.onSnakeHeadCollision(([gameObject]) => {
       // TODO maybe use visitor pattern here? (rather than type check)
-      if (gameObject instanceof Bonus) {
+      if (gameObject.className === this.bonus.className) {
         this.snake.grow();
         const newPosition = this.randPosition();
         this.bonus.position = newPosition;
         this.points += 100;
       } else if (
-        gameObject instanceof Wall ||
-        gameObject instanceof SnakeSegment
+        gameObject.className === GameMap.wallClassName ||
+        gameObject.className === Snake.segmentClassName
       ) {
         gameLoop.stopGame();
         this.#handleGameOver?.();
@@ -163,7 +161,7 @@ export class GameController {
     this.snake = new Snake();
     this.gameScene.add(this.snake);
 
-    this.bonus = new Bonus();
+    this.bonus = new SingleTileObject("game-object-bonus");
     this.bonus.position = this.randPosition();
     this.gameScene.add(this.bonus);
 
