@@ -1,8 +1,7 @@
 "use strict";
 import { DrawContext } from "./core/DrawContext.js";
 import { GameLoop } from "./core/GameLoop.js";
-import { GameScene } from "./game-objects/GameScene.js";
-import { GameMapFactory } from "./game-objects/GameMapFactory.js";
+import { GameObjectsFactory } from "./game-objects/GameObjectFactory.js";
 import { SingleTileObject } from "./game-objects/SingleTileObject.js";
 import { Snake } from "./game-objects/Snake.js";
 import { Position } from "./utils/position.js";
@@ -18,9 +17,9 @@ export class GameController {
 
   /** @type {DrawContext | null} */
   drawContext = null;
-  /** @type {GameMapFactory | null} */
-  gameMapFactory = null;
-  /** @type {GameScene | null} */
+  /** @type {GameObjectsFactory | null} */
+  gameObjectsFactory = null;
+  /** @type {ContainerObject | null} */
   gameScene = null;
   /** @type {ContainerObject | null} */
   gameMap = null;
@@ -42,13 +41,13 @@ export class GameController {
   applyGameRules(gameLoop) {
     gameLoop.onSnakeHeadCollision(([gameObject]) => {
       // TODO maybe use visitor pattern here? (rather than type check)
-      if (gameObject.className === this.bonus.className) {
+      if (gameObject.className === GameObjectsFactory.bonusClassName) {
         this.snake.grow();
         const newPosition = this.randPosition();
         this.bonus.position = newPosition;
         this.points += 100;
       } else if (
-        gameObject.className === GameMapFactory.wallClassName ||
+        gameObject.className === GameObjectsFactory.wallClassName ||
         gameObject.className === Snake.segmentClassName
       ) {
         gameLoop.stopGame();
@@ -87,10 +86,7 @@ export class GameController {
       this.sizeInTiles.cols,
     );
 
-    this.gameScene = new GameScene();
-    this.gameScene.setDrawContext(this.drawContext);
-
-    this.gameMapFactory = new GameMapFactory(this.drawContext);
+    this.gameObjectsFactory = new GameObjectsFactory(this.drawContext);
 
     this.gameLoop = new GameLoop();
     this.applyGameRules(this.gameLoop);
@@ -127,6 +123,20 @@ export class GameController {
     }
   }
 
+  /**
+   * Check if given position is outside map
+   * @param {Position} position given position
+   * @returns true when given position is outside map
+   */
+  isOutsideMap(position) {
+    return (
+      position.row >= this.drawContext.sizeInTiles.rows ||
+      position.row < 0 ||
+      position.col >= this.drawContext.sizeInTiles.cols ||
+      position.col < 0
+    );
+  }
+
   randPosition() {
     const { rows, cols } = this.sizeInTiles;
 
@@ -147,7 +157,7 @@ export class GameController {
       throw Error("Can't resume");
     }
 
-    this.gameLoop.startGame(100, this.gameScene, this.snake);
+    this.gameLoop.startGame(100, this);
   }
 
   /**
@@ -155,19 +165,20 @@ export class GameController {
    * @param {'level_01' | 'level_02'} gameMapName level name
    */
   newGame(gameMapName) {
-    this.gameMap = this.gameMapFactory.getGameMap(gameMapName);
+    this.gameScene = this.gameObjectsFactory.getGameScene();
+
+    this.gameMap = this.gameObjectsFactory.getGameMap(gameMapName);
     this.gameScene.add(this.gameMap);
 
-    this.snake = new Snake();
+    this.snake = this.gameObjectsFactory.getSnake();
     this.gameScene.add(this.snake);
 
-    this.bonus = new SingleTileObject("game-object-bonus");
-    this.bonus.position = this.randPosition();
+    this.bonus = this.gameObjectsFactory.getBonus(this.randPosition());
     this.gameScene.add(this.bonus);
 
-    this.gameScene.setDrawContext(this.drawContext);
     this.gameScene.createView();
-    this.gameLoop.startGame(100, this.gameScene, this.snake);
+
+    this.gameLoop.startGame(100, this);
   }
 
   destroy() {
@@ -176,7 +187,7 @@ export class GameController {
 
     this.gameLoop = null;
     this.gameScene = null;
-    this.gameMapFactory = null;
+    this.gameObjectsFactory = null;
     this.gameMap = null;
     this.bonus = null;
     this.snake = null;

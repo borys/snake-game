@@ -1,8 +1,7 @@
 "use strict";
 
 /** @import { GameObject } from "./GameObject.js"; */
-import { Snake } from "../game-objects/Snake.js";
-import { GameScene } from "../game-objects/GameScene.js";
+import { GameController } from "../GameController.js";
 
 export class GameLoop {
   /** @type {number | null} */
@@ -40,20 +39,19 @@ export class GameLoop {
   /**
    * Start game
    * @param {number} speed how often in ms need to be refreshed
-   * @param {GameScene} gameScene snake object
-   * @param {Snake} snake snake object
+   * @param {GameController} gameController snake object
    */
-  startGame(speed, gameScene, snake) {
+  startGame(speed, gameController) {
     if (this.#gameLoop) {
       throw new Error("Game already started");
     }
 
     this.#gameLoop = setInterval(() => {
-      snake.animate();
+      gameController.snake.animate();
 
-      const snakeHead = snake.getHead();
+      const snakeHead = gameController.snake.getHead();
 
-      if (gameScene.isOutsideMap(snakeHead.position)) {
+      if (gameController.isOutsideMap(snakeHead.position)) {
         this.#handleSnakeHeadOutsideMap?.();
 
         if (this.#gameLoop === null) {
@@ -61,7 +59,7 @@ export class GameLoop {
         }
       }
 
-      const collided = gameScene
+      const collided = gameController.gameScene
         .checkCollision(snakeHead.position)
         .filter((gameObject) => gameObject !== snakeHead);
 
@@ -73,7 +71,7 @@ export class GameLoop {
         }
       }
 
-      gameScene.updateView();
+      gameController.gameScene.updateView();
     }, speed);
   }
 

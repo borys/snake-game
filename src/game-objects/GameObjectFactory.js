@@ -2,15 +2,16 @@ import { DrawContext } from "../core/DrawContext.js";
 import { Position } from "../utils/position.js";
 import { ContainerObject } from "./ContainerObject.js";
 import { SingleTileObject } from "./SingleTileObject.js";
+import { Snake } from "./Snake.js";
 
-export class GameMapFactory {
+export class GameObjectsFactory {
+  static wallClassName = "game-object-wall";
+  static bonusClassName = "game-object-bonus";
   /**
    * @protected
    * @type {DrawContext}
    */
   _drawContext;
-
-  static wallClassName = "game-object-wall";
 
   /**
    * Creates factory
@@ -20,8 +21,39 @@ export class GameMapFactory {
     this._drawContext = drawContext;
   }
 
+  getGameScene() {
+    const scene = new ContainerObject();
+    scene.setDrawContext(this._drawContext);
+
+    return scene;
+  }
+
+  getSnake() {
+    const snake = new Snake();
+    snake.setDrawContext(this._drawContext);
+    return snake;
+  }
+
+  getBonus(position) {
+    const bonus = new SingleTileObject("game-object-bonus", position);
+    bonus.setDrawContext(this._drawContext);
+
+    return bonus;
+  }
+
+  /**
+   * Creates new wall
+   * @param {Position} position wall position
+   * @returns new SingleTileObject representing Wall
+   */
   getWall(position) {
-    return new SingleTileObject(GameMapFactory.wallClassName, position);
+    const newWall = new SingleTileObject(
+      GameObjectsFactory.wallClassName,
+      position,
+    );
+    newWall.setDrawContext(this._drawContext);
+
+    return newWall;
   }
 
   /**
@@ -31,10 +63,11 @@ export class GameMapFactory {
    */
   getGameMap(gameMapName) {
     const sizeInTiles = this._drawContext.sizeInTiles;
-    const gameMap = new ContainerObject();
-    gameMap.setDrawContext(this._drawContext);
     const lastColumn = sizeInTiles.cols - 1;
     const lastRow = sizeInTiles.rows - 1;
+
+    const gameMap = new ContainerObject();
+    gameMap.setDrawContext(this._drawContext);
 
     switch (gameMapName) {
       case "level_01": {
