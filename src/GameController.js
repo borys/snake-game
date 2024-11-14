@@ -86,7 +86,7 @@ export class GameController {
     this.drawContext = new DrawContext(
       rootElement,
       this.sizeInTiles.rows,
-      this.sizeInTiles.cols
+      this.sizeInTiles.cols,
     );
 
     this.gameScene = new GameScene();
@@ -137,7 +137,7 @@ export class GameController {
     do {
       newPosition = new Position(
         Math.floor(Math.random() * rows),
-        Math.floor(Math.random() * cols)
+        Math.floor(Math.random() * cols),
       );
     } while (this.gameScene.checkCollision(newPosition).length);
 

@@ -57,7 +57,7 @@ export class GameMenu {
       Array.from(clone.querySelectorAll("output")).map((output) => [
         output.name,
         output,
-      ])
+      ]),
     );
 
     // @ts-ignore

@@ -21,7 +21,7 @@ export class PauseMenuState extends GameState {
       if (key === "resume") {
         const resumeGameState = new ResumeGameState(
           gameManager,
-          gameController
+          gameController,
         );
         gameManager.changeState(resumeGameState);
       } else if (key === "exit") {
