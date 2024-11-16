@@ -1,6 +1,5 @@
 "use strict";
 
-/** @import { GameObject } from "./core/GameObject.js"; */
 import { GameController } from "./GameController.js";
 
 export class GameLoop {
@@ -8,75 +7,31 @@ export class GameLoop {
   #gameLoop = null;
 
   /**
-   * Callback
-   * @callback onSnakeHeadOutsideMapCallback
-   */
-  /** @type {onSnakeHeadOutsideMapCallback} */
-  #handleSnakeHeadOutsideMap;
-  /**
-   * Set callback that will be called when head will be outside map
-   * @param {onSnakeHeadOutsideMapCallback} cb callback
-   */
-  onSnakeHeadOutsideMap(cb) {
-    this.#handleSnakeHeadOutsideMap = cb;
-  }
-
-  /**
-   * Callback
-   * @callback onSnakeHeadCollisionCallback
-   * @param {GameObject[]} array of elements that collided
-   */
-  /** @type {onSnakeHeadCollisionCallback} */
-  #handleSnakeHeadCollision;
-  /**
-   * Set callback that will be called when collision be detected
-   * @param {onSnakeHeadCollisionCallback} cb callback
-   */
-  onSnakeHeadCollision(cb) {
-    this.#handleSnakeHeadCollision = cb;
-  }
-
-  /**
    * Start game
    * @param {number} speed how often in ms need to be refreshed
    * @param {GameController} gameController snake object
    */
   startGame(speed, gameController) {
-    if (this.#gameLoop) {
+    if (this.isGameRunning()) {
       throw new Error("Game already started");
     }
 
     this.#gameLoop = setInterval(() => {
-      gameController.snake.animate();
+      gameController.animate();
+      gameController.checkCollision();
 
-      const snakeHead = gameController.snake.getHead();
-
-      if (gameController.isOutsideMap(snakeHead.position)) {
-        this.#handleSnakeHeadOutsideMap?.();
-
-        if (this.#gameLoop === null) {
-          return;
-        }
+      if (this.isGameRunning()) {
+        gameController.updateView();
       }
-
-      const collided = gameController.gameScene
-        .checkCollision(snakeHead.position)
-        .filter((gameObject) => gameObject !== snakeHead);
-
-      if (collided.length) {
-        this.#handleSnakeHeadCollision?.(collided);
-
-        if (this.#gameLoop === null) {
-          return;
-        }
-      }
-
-      gameController.gameScene.updateView();
     }, speed);
   }
 
   stopGame() {
     clearInterval(this.#gameLoop);
     this.#gameLoop = null;
+  }
+
+  isGameRunning() {
+    return this.#gameLoop !== null;
   }
 }
