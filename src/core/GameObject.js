@@ -20,7 +20,7 @@ export class GameObject {
   }
 
   /**
-   * Update object - set new position, change color etc.
+   * Creates view element
    * @abstract
    */
   createView() {
@@ -28,7 +28,7 @@ export class GameObject {
   }
 
   /**
-   * Update object - set new position, change color etc.
+   * Updates view element: set new position, change color etc.
    * @abstract
    */
   updateView() {

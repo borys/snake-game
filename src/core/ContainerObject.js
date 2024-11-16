@@ -14,7 +14,7 @@ export class ContainerObject extends GameObject {
   }
 
   /**
-   * Check if provided position is occupied by container's children
+   * Check if provided position is occupied by container's child
    * @param {Position} position position checked for collision
    * @returns array of collided elements, empty when no collision
    */
