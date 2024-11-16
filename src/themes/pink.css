@@ -3,6 +3,22 @@
   src: url("../fonts/8_bit_operator/8bitOperatorPlus-Regular.ttf");
 }
 
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h1 {
+  font-family: snakeFont;
+  color: dimgray;
+}
+
+#snakeGame {
+  border: solid 1px darkred;
+}
+
 .menuWrapper {
   position: relative;
   padding-top: 100px;
