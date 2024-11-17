@@ -16,7 +16,8 @@ export class GameLoop {
       throw new Error("Game already started");
     }
 
-    this.#gameLoop = setInterval(() => {
+    // use window for correct typings
+    this.#gameLoop = window.setInterval(() => {
       gameController.animate();
       gameController.checkCollision();
 

@@ -1,3 +1,4 @@
 pnpm prettierCheck
 pnpm check-types
 pnpm eslintCheck
+pnpm test

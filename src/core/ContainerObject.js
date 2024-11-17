@@ -1,5 +1,5 @@
-import { GameObject } from "./GameObject";
-import { Position } from "./Position";
+import { GameObject } from "./GameObject.js";
+import { Position } from "./Position.js";
 
 export class ContainerObject extends GameObject {
   /**

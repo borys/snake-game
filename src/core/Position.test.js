@@ -1,4 +1,4 @@
-import { Position } from "./Position";
+import { Position } from "./Position.js";
 
 describe("Position", () => {
   it("should create position object", () => {
