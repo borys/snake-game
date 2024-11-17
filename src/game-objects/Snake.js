@@ -4,28 +4,35 @@ import { Position } from "../core/Position.js";
 import { SnakeDirectionState } from "./snake-direction-state/SnakeDirectionState.js";
 import { UpSnakeDirectionState } from "./snake-direction-state/UpSnakeDirectionState.js";
 import { ContainerObject } from "../core/ContainerObject.js";
+import { SnakeSegmentFactory } from "./SnakeSegmentFactory.js";
+import { SnakeDirectionStateFactory } from "./snake-direction-state/SnakeDirectionStateFactory.js";
 
 // TODO should also extends SnakeDirectionState
 export class Snake extends ContainerObject {
   #gameObjectFactory = null;
   #growCounter = 0;
-  /** @type {SnakeDirectionState} */
-  #directionState = new UpSnakeDirectionState(this);
+  /** @type {SnakeDirectionState | null} */
+  #directionState = null;
   /** @type {"UP" | "DOWN" | "LEFT" | "RIGHT" | null} */
   #nextDirection = null;
 
-  constructor(gameObjectsFactory) {
+  /**
+   * Creates snake
+   * @param {SnakeSegmentFactory} snakeSegmentFactory game object factory
+   * @param {Position[]} initSegmentPositions init snake segments position
+   * @param {"UP" | "DOWN" | "LEFT" | "RIGHT"} initDirection init move direction
+   */
+  constructor(snakeSegmentFactory, initSegmentPositions, initDirection) {
     super();
-    this.#gameObjectFactory = gameObjectsFactory;
+    this.#gameObjectFactory = snakeSegmentFactory;
 
-    // TODO move to GameController
-    this._children = [
-      new Position(25, 23),
-      new Position(25, 24),
-      new Position(25, 25),
-      new Position(25, 26),
-    ].map((position) => {
-      return gameObjectsFactory.getSnakeSegment(position);
+    this.#directionState = SnakeDirectionStateFactory.getSnakeDirection(
+      this,
+      initDirection,
+    );
+
+    this._children = initSegmentPositions.map((position) => {
+      return snakeSegmentFactory.getSnakeSegment(position);
     });
   }
 
@@ -38,7 +45,7 @@ export class Snake extends ContainerObject {
    * @param {Position} currentPosition current element position
    * @returns calculated new position
    */
-  nextPosition(currentPosition) {
+  #nextPosition(currentPosition) {
     return this.#directionState.nextPosition(currentPosition);
   }
 
@@ -89,7 +96,7 @@ export class Snake extends ContainerObject {
       this.#nextDirection = null;
     }
 
-    const newPosition = this.nextPosition(oldHead.position);
+    const newPosition = this.#nextPosition(oldHead.position);
 
     let newHead, body;
     if (this.#growCounter > 0) {

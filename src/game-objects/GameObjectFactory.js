@@ -5,7 +5,12 @@ import { Position } from "../core/Position.js";
 import { ContainerObject } from "../core/ContainerObject.js";
 import { SingleTileObject } from "./SingleTileObject.js";
 import { Snake } from "./Snake.js";
+import { SnakeSegmentFactory } from "./SnakeSegmentFactory.js";
 
+/**
+ * Class used for creating game objects
+ * @implements {SnakeSegmentFactory}
+ */
 export class GameObjectsFactory {
   static wallClassName = "game-object-wall";
   static bonusClassName = "game-object-bonus";
@@ -42,7 +47,14 @@ export class GameObjectsFactory {
   }
 
   getSnake() {
-    const snake = new Snake(this);
+    const segmentsPosition = [
+      new Position(25, 23),
+      new Position(25, 24),
+      new Position(25, 25),
+      new Position(25, 26),
+    ];
+
+    const snake = new Snake(this, segmentsPosition, "UP");
     snake.setDrawContext(this._drawContext);
     return snake;
   }
