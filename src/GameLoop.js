@@ -1,6 +1,6 @@
 "use strict";
 
-import { GameController } from "./GameController.js";
+import { GameLoopController } from "./GameLoopController.js";
 
 export class GameLoop {
   /** @type {number | null} */
@@ -9,7 +9,7 @@ export class GameLoop {
   /**
    * Start game
    * @param {number} speed how often in ms need to be refreshed
-   * @param {GameController} gameController snake object
+   * @param {GameLoopController} gameController snake object
    */
   startGame(speed, gameController) {
     if (this.isGameRunning()) {

@@ -7,7 +7,11 @@ import { Snake } from "./game-objects/Snake.js";
 import { Position } from "./core/Position.js";
 import { ContainerObject } from "./core/ContainerObject.js";
 import { GameObject } from "./core/GameObject.js";
+import { GameLoopController } from "./GameLoopController.js";
 
+/**
+ * @implements {GameLoopController}
+ */
 export class GameController {
   /** @type {DrawContext | null} */
   #drawContext = null;
