@@ -38,5 +38,5 @@
     "typescript": "^5.6.3",
     "vite": "^5.4.11"
   },
-  "packageManager": "pnpm@9.12.3"
+  "packageManager": "pnpm"
 }
