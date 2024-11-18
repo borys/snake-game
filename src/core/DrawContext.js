@@ -19,11 +19,11 @@ export class DrawContext {
   };
 
   #getTileWidth() {
-    return this.sizeInPixels.width / this.sizeInTiles.cols;
+    return Math.floor(this.sizeInPixels.width / this.sizeInTiles.cols);
   }
 
   #getTileHeight() {
-    return this.sizeInPixels.height / this.sizeInTiles.rows;
+    return Math.floor(this.sizeInPixels.height / this.sizeInTiles.rows);
   }
 
   #getWidth(cols) {

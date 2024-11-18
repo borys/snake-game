@@ -48,6 +48,7 @@ h1 {
 }
 
 #snakeGame {
+  box-sizing: content-box;
   width: 500px;
   min-width: 500px;
   max-width: 500px;
