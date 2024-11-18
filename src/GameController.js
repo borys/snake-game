@@ -77,7 +77,7 @@ export class GameController {
       case GameObjectsFactory.bonusClassName: {
         this.#snake.grow();
 
-        const newPosition = this.randPosition();
+        const newPosition = this.#randPosition();
         this.#bonus.position = newPosition;
 
         this.points += 100;
@@ -170,7 +170,7 @@ export class GameController {
    * @param {Position} position given position
    * @returns true when given position is outside map
    */
-  isOutsideMap(position) {
+  #isOutsideMap(position) {
     return (
       position.row >= this.#drawContext.sizeInTiles.rows ||
       position.row < 0 ||
@@ -183,7 +183,7 @@ export class GameController {
    * Returns random position not occupied by other objects
    * @returns random position
    */
-  randPosition() {
+  #randPosition() {
     const { rows, cols } = this.sizeInTiles;
 
     let newPosition;
@@ -206,7 +206,7 @@ export class GameController {
 
     const snakeHead = this.#snake.getHead();
 
-    if (this.isOutsideMap(snakeHead.position)) {
+    if (this.#isOutsideMap(snakeHead.position)) {
       this.#handleSnakeHeadOutsideMap(snakeHead);
     }
   }
@@ -273,7 +273,7 @@ export class GameController {
     this.#snake = this.#gameObjectsFactory.getSnake();
     this.#gameScene.add(this.#snake);
 
-    this.#bonus = this.#gameObjectsFactory.getBonus(this.randPosition());
+    this.#bonus = this.#gameObjectsFactory.getBonus(this.#randPosition());
     this.#gameScene.add(this.#bonus);
 
     this.#gameScene.createView();
