@@ -5,7 +5,7 @@ Toy-project, old school snake game, used to test new JS features in browser. Als
 Assumptions:
 
 - written in VanillaJS
-- no external libs
+- no external libs required
 - optionally use JsDoc for type checking
 - tools like prettier, linter are allowed
 - bundlers - conditionally allowed for minification
