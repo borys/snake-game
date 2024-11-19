@@ -1,6 +1,5 @@
-name: CI workflow
-on:
-  push
+name: Run tests
+on: push
 
 jobs:
   run-linter-and-tests:
@@ -20,7 +19,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: install dependencies
         run: pnpm install
@@ -36,5 +35,3 @@ jobs:
 
       - name: Run tests
         run: pnpm test
-
-
