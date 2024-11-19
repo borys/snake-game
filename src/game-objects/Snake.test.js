@@ -53,7 +53,6 @@ describe("Snake", () => {
     getSnakeSegmentSpy.mockClear();
 
     snake.grow();
-    console.log(snake._children);
     snake.animate();
 
     expect(getSnakeSegmentSpy).toHaveBeenCalled();
